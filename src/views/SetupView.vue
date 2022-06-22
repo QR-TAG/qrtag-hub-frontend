@@ -3,7 +3,7 @@
     <v-container fluid fill-height>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="10">
-         <start-game />
+         <setup />
         </v-col>
       </v-row>
     </v-container>
@@ -13,12 +13,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-import StartGame from "@/components/StartGame.vue";
+import Setup from "@/components/Setup.vue";
 
 @Component({
   components: {
-    StartGame,
+    Setup,
   },
 })
-export default class HomeView extends Vue {}
+export default class SetupView extends Vue {}
 </script>
