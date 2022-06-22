@@ -3,8 +3,7 @@
     <v-container fluid fill-height>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="10">
-          ciao
-          <!-- <router-view :class="{ 'elevation-8': elevated }" /> -->
+         <start-game />
         </v-col>
       </v-row>
     </v-container>
@@ -14,6 +13,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-@Component
+import StartGame from "@/components/StartGame.vue";
+
+@Component({
+  components: {
+    StartGame,
+  },
+})
 export default class Home extends Vue {}
 </script>

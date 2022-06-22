@@ -13,6 +13,10 @@ export default class App extends Vue {}
 
 <style lang="scss">
 html {
-  overflow-y: auto;
+  overflow-y: auto !important;
+}
+
+#app {
+  background: #c4bebe;
 }
 </style>
