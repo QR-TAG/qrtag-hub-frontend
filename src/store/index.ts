@@ -13,7 +13,8 @@ export interface User {
 export default new Vuex.Store({
   state: {
     guns: [] as string[],
-    users: [] as User[]
+    users: [] as User[],
+    gameFinished: false
   },
   getters: {
   },
@@ -32,6 +33,15 @@ export default new Vuex.Store({
       if (user) {
         user.tshirtId = data.tshirtId;
       }
+    },
+    shootPirla(state, data: { shooterGunId: string, tshirtId: string }) {
+      const user = state.users.find(user => user.gunId === data.shooterGunId);
+      if (user) {
+        user.life--;
+      }
+    },
+    setGameFinished(state, value: boolean) {
+      state.gameFinished = value;
     }
   },
   actions: {

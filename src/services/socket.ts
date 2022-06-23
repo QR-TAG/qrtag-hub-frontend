@@ -9,6 +9,9 @@ class SocketService {
         this.socket.on('setupStarted', guns => {
             store.commit('setGuns', guns);
         });
+        this.socket.on('gameFinished', () => {
+            store.commit('setGameFinished', true);
+        });
     }
 
     public startSetup(): void {
@@ -30,7 +33,9 @@ class SocketService {
     }
 
     public tshirtShot(shooterGunId: string, tshirtId: string): void {
-        this.socket.emit('announceTshirt', { shooterGunId, tshirtId });
+        this.socket.emit('tshirtShot', { shooterGunId, tshirtId });
+        store.commit('shootPirla', { shooterGunId, tshirtId });
     }
+
 }
 export default new SocketService();
