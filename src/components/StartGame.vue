@@ -21,7 +21,7 @@ export default class StartGame extends Vue {
   /* METHODS */
 
   public startGame(): void {
-    this.socketService.startGame();
+    this.socketService.startSetup();
     this.$router.push('/setup');
   }
 
