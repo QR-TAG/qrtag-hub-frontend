@@ -29,10 +29,6 @@ export default class StartGame extends Vue {
 
   created() {
     this.socketService.announceGun("001");
-    this.socketService.announceGun("002");
-    setTimeout(() => {
-      this.socketService.announceGun("003");
-    }, 2000);
   }
 }
 </script>

@@ -86,13 +86,33 @@ export default class Setup extends Vue {
     this.username = "";
     this.showDialog = false;
 
+    let time = 0;
+    switch (gunId) {
+      case "001":
+        time = 0;
+        break;
+      case "gun1":
+        time = 5000;
+        break;
+    }
+
     setTimeout(() => {
-      this.socketService.announceTshirt(gunId, "" + Math.random());
-    }, 2000);
+      let tshirtValue = "";
+      switch (gunId) {
+        case "001":
+          tshirtValue = "5678";
+          break;
+        case "gun1":
+          tshirtValue = "1234";
+          break;
+      }
+
+      this.socketService.announceTshirt(gunId, tshirtValue);
+    }, time);
   }
 
   public startGame(): void {
-    this.$router.push('/game');
+    this.$router.push("/game");
   }
 }
 </script>

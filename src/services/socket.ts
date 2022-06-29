@@ -12,6 +12,10 @@ class SocketService {
         this.socket.on('gameFinished', () => {
             store.commit('setGameFinished', true);
         });
+        this.socket.on('tshirtShot', (data: { shooterGunId: string, tshirtId: string }) => {
+            store.commit('setGameFinished', true);
+            store.commit('shootPirla', { shooterGunId: data.shooterGunId, tshirtId: data.tshirtId });
+        });
     }
 
     public startSetup(): void {

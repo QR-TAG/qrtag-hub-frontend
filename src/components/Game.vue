@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import socketService from "@/services/socket";
+// import socketService from "@/services/socket";
 
 import { User } from "@/store";
 
@@ -38,27 +38,27 @@ export default class Game extends Vue {
   /* CREATED */
 
   public mounted(): void {
-    const winner = this.users[0];
-    const loser = this.users[1];
+    // const winner = this.users[0];
+    // const loser = this.users[1];
 
-    setTimeout(() => {
-      socketService.tshirtShot(winner.gunId, loser.tshirtId as string);
-    }, 1000);
-    setTimeout(() => {
-      socketService.tshirtShot(winner.gunId, loser.tshirtId as string);
-    }, 2000);
-    setTimeout(() => {
-      socketService.tshirtShot(winner.gunId, loser.tshirtId as string);
-    }, 3000);
-    setTimeout(() => {
-      socketService.tshirtShot(winner.gunId, loser.tshirtId as string);
-    }, 4000);
-    setTimeout(() => {
-      socketService.tshirtShot(loser.gunId, winner.tshirtId as string);
-    }, 4500);
-    setTimeout(() => {
-      socketService.tshirtShot(winner.gunId, loser.tshirtId as string);
-    }, 5000);
+    // setTimeout(() => {
+    //   socketService.tshirtShot(winner.gunId, loser.tshirtId as string);
+    // }, 1000);
+    // setTimeout(() => {
+    //   socketService.tshirtShot(winner.gunId, loser.tshirtId as string);
+    // }, 2000);
+    // setTimeout(() => {
+    //   socketService.tshirtShot(winner.gunId, loser.tshirtId as string);
+    // }, 3000);
+    // setTimeout(() => {
+    //   socketService.tshirtShot(winner.gunId, loser.tshirtId as string);
+    // }, 4000);
+    // setTimeout(() => {
+    //   socketService.tshirtShot(loser.gunId, winner.tshirtId as string);
+    // }, 4500);
+    // setTimeout(() => {
+    //   socketService.tshirtShot(winner.gunId, loser.tshirtId as string);
+    // }, 5000);
   }
 }
 </script>
