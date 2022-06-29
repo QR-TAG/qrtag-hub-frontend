@@ -80,35 +80,10 @@ export default class Setup extends Vue {
 
   public addUser(): void {
     const gunId = this.selectedGun as string;
-
     this.socketService.addUser(gunId, this.username);
     this.selectedGun = null;
     this.username = "";
     this.showDialog = false;
-
-    let time = 0;
-    switch (gunId) {
-      case "001":
-        time = 0;
-        break;
-      case "gun1":
-        time = 5000;
-        break;
-    }
-
-    setTimeout(() => {
-      let tshirtValue = "";
-      switch (gunId) {
-        case "001":
-          tshirtValue = "5678";
-          break;
-        case "gun1":
-          tshirtValue = "1234";
-          break;
-      }
-
-      this.socketService.announceTshirt(gunId, tshirtValue);
-    }, time);
   }
 
   public startGame(): void {

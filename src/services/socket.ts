@@ -13,8 +13,10 @@ class SocketService {
             store.commit('setGameFinished', true);
         });
         this.socket.on('tshirtShot', (data: { shooterGunId: string, tshirtId: string }) => {
-            store.commit('setGameFinished', true);
             store.commit('shootPirla', { shooterGunId: data.shooterGunId, tshirtId: data.tshirtId });
+        });
+        this.socket.on('announceTshirt', ({ gunId, tshirtId }) => {
+            store.commit('addTshirt', { gunId, tshirtId });
         });
     }
 
@@ -33,12 +35,10 @@ class SocketService {
 
     public announceTshirt(gunId: string, tshirtId: string): void {
         this.socket.emit('announceTshirt', { gunId, tshirtId });
-        store.commit('addTshirt', { gunId, tshirtId });
     }
 
     public tshirtShot(shooterGunId: string, tshirtId: string): void {
         this.socket.emit('tshirtShot', { shooterGunId, tshirtId });
-        store.commit('shootPirla', { shooterGunId, tshirtId });
     }
 
 }
