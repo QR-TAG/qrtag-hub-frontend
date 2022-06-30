@@ -1,22 +1,55 @@
 import { Socket, io } from "socket.io-client";
-import store, { User } from '@/store';
+
+import store from '@/store';
+import { Data, User } from "@/types";
+import router from "@/router";
 
 class SocketService {
     private socket: Socket;
 
     constructor() {
         this.socket = io('http://localhost:3000');
-        this.socket.on('setupStarted', guns => {
-            store.commit('setGuns', guns);
+
+        this.socket.on('state', (data: Data) => {
+            // if (data.mode === Mode.init) {
+            store.commit('setTaggers', data.taggers.map(tagger => tagger.taggerId));
+            // }
         });
+
+        this.socket.on('taggerAnnounced', (data: { id: string }) => {
+            store.commit('addTagger', data.id);
+        });
+
+        this.socket.on('taggerDisconnected', (data: { taggerId: string }) => {
+            store.commit('removeTagger', data.taggerId);
+        });
+
+        this.socket.on('setupStarted', () => {
+            router.push('/setup');
+        });
+
+        this.socket.on('userAdded', (user: User) => {
+            store.commit('addUser', user);
+        });
+
+        this.socket.on('tshirtBound', (data: { username: string, tshirtId: string }) => {
+            store.commit('bindTshirt', data);
+        });
+
+        this.socket.on('gameStarted', () => {
+            router.push('/game');
+        });
+
+        this.socket.on('userTagged', (data: { whoDidIt: string, username: string }) => {
+            store.commit('tagUser', data);
+        });
+
+        this.socket.on('userDied', (data: { username: string }) => {
+            store.commit('dieUser', data);
+        });
+
         this.socket.on('gameFinished', () => {
             store.commit('setGameFinished', true);
-        });
-        this.socket.on('tshirtShot', (data: { shooterGunId: string, tshirtId: string }) => {
-            store.commit('shootPirla', { shooterGunId: data.shooterGunId, tshirtId: data.tshirtId });
-        });
-        this.socket.on('announceTshirt', ({ gunId, tshirtId }) => {
-            store.commit('addTshirt', { gunId, tshirtId });
         });
     }
 
@@ -24,21 +57,12 @@ class SocketService {
         this.socket.emit('startSetup');
     }
 
-    public announceGun(id: string): void {
-        this.socket.emit('announceGun', { id });
+    public addUser(taggerId: string, username: string): void {
+        this.socket.emit('addUser', { taggerId, username });
     }
 
-    public addUser(gunId: string, username: string): void {
-        this.socket.emit('addUser', { gunId, username });
-        store.commit('addUser', { gunId, username, tshirtId: null, life: 5} as User);
-    }
-
-    public announceTshirt(gunId: string, tshirtId: string): void {
-        this.socket.emit('announceTshirt', { gunId, tshirtId });
-    }
-
-    public tshirtShot(shooterGunId: string, tshirtId: string): void {
-        this.socket.emit('tshirtShot', { shooterGunId, tshirtId });
+    public startGame(): void {
+        this.socket.emit('startGame');
     }
 
 }

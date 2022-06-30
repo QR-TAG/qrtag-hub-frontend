@@ -22,13 +22,7 @@ export default class StartGame extends Vue {
 
   public startGame(): void {
     this.socketService.startSetup();
-    this.$router.push('/setup');
   }
 
-  /* LIFE CYCLE */
-
-  created() {
-    this.socketService.announceGun("001");
-  }
 }
 </script>

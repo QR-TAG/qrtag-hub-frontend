@@ -1,43 +1,55 @@
+import { User } from '@/types';
 import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
-export interface User {
-  gunId: string;
-  tshirtId: string | null;
-  username: string;
-  life: number;
-}
-
 export default new Vuex.Store({
   state: {
-    guns: [] as string[],
+    taggers: [] as string[],
     users: [] as User[],
     gameFinished: false
   },
   getters: {
   },
   mutations: {
-    setGuns(state, guns) {
-      state.guns = guns;
+    setTaggers(state, taggers) {
+      state.taggers = taggers;
     },
-    addGun(state, gun) {
-      state.guns.push(gun);
+    addTagger(state, tagger) {
+      state.taggers.push(tagger);
+    },
+    removeTagger(state, taggerId) {
+      state.taggers = state.taggers.filter(tagger => tagger !== taggerId);
     },
     addUser(state, user) {
       state.users.push(user);
     },
-    addTshirt(state, data: { gunId: string, tshirtId: string }) {
-      const user = state.users.find(user => user.gunId === data.gunId);
+    bindTshirt(state, data: { username: string, tshirtId: string }) {
+      const user = state.users.find(user => user.username === data.username);
       if (user) {
         user.tshirtId = data.tshirtId;
       }
     },
-    shootPirla(state, data: { shooterGunId: string, tshirtId: string }) {
-      const user = state.users.find(user => user.gunId === data.shooterGunId);
+    tagUser(state, data: { whoDidIt: string, username: string }) {
+      const user = state.users.find(user => user.username === data.username);
+
       if (user) {
         user.life--;
+      }
+    },
+    userDied(state, data: { whoDidIt: string, username: string }) {
+      const user = state.users.find(user => user.username === data.username);
+
+      if (user) {
+        user.life--;
+      }
+    },
+    dieDied(state, data: { username: string }) {
+      const user = state.users.find(user => user.username === data.username);
+
+      if (user) {
+        user.life = 0;
       }
     },
     setGameFinished(state, value: boolean) {

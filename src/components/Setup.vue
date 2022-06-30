@@ -2,18 +2,18 @@
   <v-card>
     <v-card-title class="headline primary white--text">SETUP GAME</v-card-title>
     <v-container class="my-4">
-      <v-row class="d-flex align-center" v-for="gun of guns" :key="`${gun}_gun`">
+      <v-row class="d-flex align-center" v-for="tagger of taggers" :key="`${tagger}_tagger`">
         <v-col :cols="10">
-          <v-text-field :value="gun" label="Tagger ID" />
+          <v-text-field :value="tagger" label="Tagger ID" />
         </v-col>
         <v-col :cols="2">
-          <v-btn color="primary" @click="addGun(gun)">ADD</v-btn>
+          <v-btn color="primary" @click="addTagger(tagger)">ADD</v-btn>
         </v-col>
       </v-row>
 
-      <v-row class="d-flex align-center" v-for="user of users" :key="`${user.gunId}_user`">
+      <v-row class="d-flex align-center" v-for="user of users" :key="`${user.taggerId}_user`">
         <v-col :cols="4">
-          <v-text-field :value="user.gunId" label="Tagger ID" />
+          <v-text-field :value="user.taggerId" label="Tagger ID" />
         </v-col>
         <v-col :cols="4">
           <v-text-field :value="user.username" label="Username" />
@@ -31,7 +31,7 @@
 
     <v-dialog v-model="showDialog" width="500">
       <v-card>
-        <v-card-title class="text-h5 accent lighten-2">Add username for {{ selectedGun }}</v-card-title>
+        <v-card-title class="text-h5 accent lighten-2">Add username for {{ selectedTagger }}</v-card-title>
 
         <v-card-text>
           <v-text-field v-model="username" label="Username" />
@@ -50,14 +50,14 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import socketService from "@/services/socket";
-import { User } from "@/store";
+import { User } from "@/types";
 
 @Component
 export default class Setup extends Vue {
   /* DATA */
 
   private socketService = socketService;
-  private selectedGun: string | null = null;
+  private selectedTagger: string | null = null;
   private username = "";
   private showDialog = false;
 
@@ -67,27 +67,27 @@ export default class Setup extends Vue {
     return this.$store.state.users;
   }
 
-  public get guns(): string[] {
-    return this.$store.state.guns.filter((gun: string) => !this.users.find((user) => user.gunId === gun));
+  public get taggers(): string[] {
+    return this.$store.state.taggers.filter((tagger: string) => !this.users.find((user) => user.taggerId === tagger));
   }
 
   /* METHODS */
 
-  public addGun(gun: string): void {
-    this.selectedGun = gun;
+  public addTagger(tagger: string): void {
+    this.selectedTagger = tagger;
     this.showDialog = true;
   }
 
   public addUser(): void {
-    const gunId = this.selectedGun as string;
-    this.socketService.addUser(gunId, this.username);
-    this.selectedGun = null;
+    const taggerId = this.selectedTagger as string;
+    this.socketService.addUser(taggerId, this.username);
+    this.selectedTagger = null;
     this.username = "";
     this.showDialog = false;
   }
 
   public startGame(): void {
-    this.$router.push("/game");
+    this.socketService.startGame();
   }
 }
 </script>
